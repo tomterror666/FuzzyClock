@@ -1,0 +1,5 @@
+#include "Pods-WEPopover.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/WEPopover" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/WEPopover"
+OTHER_LDFLAGS = ${PODS_WEPOPOVER_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}
