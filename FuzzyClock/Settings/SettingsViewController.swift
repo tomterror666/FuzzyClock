@@ -14,7 +14,7 @@ protocol SettingsHandlingProtocol {
 	func settingsViewControllerDidFinishedSuccessfully(SettingsViewController)
 }
 
-class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ColorSelectionProtocol, WEPopoverControllerDelegate {
+class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ColorSelectionProtocol, WEPopoverControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 	
 	@IBOutlet weak var myNavigationBar:UINavigationBar!
 	@IBOutlet weak var myNavigationItem:UINavigationItem!
@@ -173,6 +173,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 			break
 		case UIImagePickerControllerSourceType.PhotoLibrary, UIImagePickerControllerSourceType.SavedPhotosAlbum:
 			let controller = UIImagePickerController()
+			controller.delegate = self
 			controller.mediaTypes = UIImagePickerController.availableMediaTypesForSourceType(mediaSources[index])!
 			self.popoverController = WEPopoverController(contentViewController: controller)
 			self.popoverController.delegate = self
@@ -205,5 +206,21 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 	
 	func popoverControllerShouldDismissPopover(popoverController: WEPopoverController!) -> Bool {
 		return true
+	}
+	
+	/*
+	 	// MARK: - UIImagePickerViewControllerDelegate
+	*/
+	
+	func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+		
+	}
+	
+	func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+		
+	}
+	
+	func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+		self.popoverController.dismissPopoverAnimated(true)
 	}
 }
