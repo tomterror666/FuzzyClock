@@ -94,6 +94,9 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 			controller.selectedColor = self.choosedBackgroundColor!
 			self.presentViewController(controller, animated: true, completion: nil)
 		}
+		else if ((indexPath.row == 1) && (indexPath.section == 0)) {
+			let controller = EinTest()
+		}
 	}
 
 	/*

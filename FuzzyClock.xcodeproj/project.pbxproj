@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E82B35001A24D9CA000A31BF /* EinTest.m in Sources */ = {isa = PBXBuildFile; fileRef = E82B34FF1A24D9CA000A31BF /* EinTest.m */; };
 		E845C25A1A03B3D90029576E /* FuzzyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E845C2591A03B3D90029576E /* FuzzyLabel.swift */; };
 		E89AA24919FA8EAB003722B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89AA24819FA8EAB003722B1 /* AppDelegate.swift */; };
 		E89AA24B19FA8EAB003722B1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89AA24A19FA8EAB003722B1 /* ViewController.swift */; };
@@ -34,6 +35,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E82B34FD1A24D9C9000A31BF /* FuzzyClock-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FuzzyClock-Bridging-Header.h"; sourceTree = "<group>"; };
+		E82B34FE1A24D9CA000A31BF /* EinTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EinTest.h; sourceTree = "<group>"; };
+		E82B34FF1A24D9CA000A31BF /* EinTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EinTest.m; sourceTree = "<group>"; };
 		E845C2591A03B3D90029576E /* FuzzyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FuzzyLabel.swift; sourceTree = "<group>"; };
 		E89AA24319FA8EAB003722B1 /* FuzzyClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FuzzyClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E89AA24719FA8EAB003722B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -104,7 +108,10 @@
 				E89AA24F19FA8EAB003722B1 /* Images.xcassets */,
 				E89AA25119FA8EAB003722B1 /* LaunchScreen.xib */,
 				E8EB0D611A24C61A00B0E76B /* NSString+FuzzyTimeConverting.swift */,
+				E82B34FE1A24D9CA000A31BF /* EinTest.h */,
+				E82B34FF1A24D9CA000A31BF /* EinTest.m */,
 				E89AA24619FA8EAB003722B1 /* Supporting Files */,
+				E82B34FD1A24D9C9000A31BF /* FuzzyClock-Bridging-Header.h */,
 			);
 			path = FuzzyClock;
 			sourceTree = "<group>";
@@ -255,6 +262,7 @@
 				E845C25A1A03B3D90029576E /* FuzzyLabel.swift in Sources */,
 				E89AA24B19FA8EAB003722B1 /* ViewController.swift in Sources */,
 				E8EB0D621A24C61A00B0E76B /* NSString+FuzzyTimeConverting.swift in Sources */,
+				E82B35001A24D9CA000A31BF /* EinTest.m in Sources */,
 				E89AA24919FA8EAB003722B1 /* AppDelegate.swift in Sources */,
 				E8EB0D5B1A248D4400B0E76B /* SettingsViewController.swift in Sources */,
 				E8EB0D5F1A24AA3B00B0E76B /* SelectColorViewController.swift in Sources */,
@@ -393,10 +401,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = FuzzyClock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FuzzyClock/FuzzyClock-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -405,10 +416,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = FuzzyClock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FuzzyClock/FuzzyClock-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
