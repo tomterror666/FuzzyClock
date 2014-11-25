@@ -14,19 +14,18 @@ protocol SettingsHandlingProtocol {
 	func settingsViewControllerDidFinishedSuccessfully(SettingsViewController)
 }
 
-class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ColorSelectionProtocol {
+class SettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ColorSelectionProtocol, WEPopoverControllerDelegate {
 	
 	@IBOutlet weak var myNavigationBar:UINavigationBar!
 	@IBOutlet weak var myNavigationItem:UINavigationItem!
 	@IBOutlet weak var myTableView:UITableView!
 	
-	@IBAction func doneButtonTouched(AnyObject) {
-		self.delegate?.settingsViewControllerDidFinishedSuccessfully(self)
-	}
-	
 	var delegate:SettingsHandlingProtocol?
 	var choosedBackgroundColor:UIColor?
 	var choosenBackgroundImage:UIImage?
+	
+	var popoverController:WEPopoverController!
+	var mediaSources:[UIImagePickerControllerSourceType] = [UIImagePickerControllerSourceType]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,19 +51,58 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 	}
 	
 	func configureTableView() {
-		self.myTableView .registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+		self.myTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
 	}
 
+	func configureCell(cell: UITableViewCell, forSourceType sourceType:UIImagePickerControllerSourceType) {
+		switch sourceType {
+		case UIImagePickerControllerSourceType.PhotoLibrary:
+			cell.textLabel.text = NSLocalizedString("fromAlbum", comment: "")
+			cell.indentationLevel = 2
+			cell.accessoryType = UITableViewCellAccessoryType.None
+		case UIImagePickerControllerSourceType.Camera:
+			cell.textLabel.text = NSLocalizedString("fromCamera", comment: "")
+			cell.indentationLevel = 2
+			cell.accessoryType = UITableViewCellAccessoryType.None
+		case UIImagePickerControllerSourceType.SavedPhotosAlbum:
+			cell.textLabel.text = NSLocalizedString("fromPhotos", comment: "")
+			cell.indentationLevel = 2
+			cell.accessoryType = UITableViewCellAccessoryType.None
+		default:
+			break
+		}
+	}
+	
     /*
 		// MARK: - UITableViewDataSource and UITableViewDelegate
     */
 	
 	func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 2
+		switch section {
+		case 0:
+			return 1
+		case 1:
+			var lineCounter:Int = 0
+			if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+				lineCounter++
+				self.mediaSources.append(UIImagePickerControllerSourceType.Camera)
+			}
+			if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary)) {
+				lineCounter++
+				self.mediaSources.append(UIImagePickerControllerSourceType.PhotoLibrary)
+			}
+			if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum)) {
+				lineCounter++
+				self.mediaSources.append(UIImagePickerControllerSourceType.SavedPhotosAlbum)
+			}
+			return lineCounter
+		default:
+			return 0
+		}
 	}
 	
 	func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-		return 1;
+		return 2;
 	}
 	
 	func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -73,17 +111,38 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 		
 		switch indexPath.row {
 			case 0:
-				cell.textLabel.text = NSLocalizedString("selectBackgroundColor", comment: "")
-				cell.textLabel.textColor = self.choosedBackgroundColor
-				cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-			case 1:
-				cell.textLabel.text = NSLocalizedString("selectBackgroundImage", comment: "")
-				cell.accessoryType = UITableViewCellAccessoryType.None
+				if indexPath.section == 0 {
+					cell.textLabel.text = NSLocalizedString("selectBackgroundColor", comment: "")
+					cell.textLabel.textColor = self.choosedBackgroundColor
+					cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+				} else {
+					self.configureCell(cell, forSourceType:mediaSources[0])
+				}
+			case 1, 2:
+				self.configureCell(cell, forSourceType:mediaSources[indexPath.row])
 			default:
 				break
 		}
 		
 		return cell
+	}
+	
+	func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		if (section == 1) {
+			let result:UIView = UIView(frame:CGRectMake(0.0, 0.0, self.myTableView.bounds.size.width, 25.0))
+			let headerLabel:UILabel = UILabel(frame:CGRectInset(result.bounds, 15.0, 0.0))
+			result.backgroundColor = UIColor(white: 0.9, alpha: 1.0)
+			headerLabel.text = NSLocalizedString("selectBackgroundImage", comment: "")
+			headerLabel.font = UIFont(name:"AvenirNeue-Medium", size: 14.0)
+			headerLabel.textColor = UIColor.darkGrayColor()
+			result.addSubview(headerLabel)
+			return result
+		}
+		return nil
+	}
+	
+	func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+		return section == 1 ? 25.0 : 0.0
 	}
 		
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -94,8 +153,36 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 			controller.selectedColor = self.choosedBackgroundColor!
 			self.presentViewController(controller, animated: true, completion: nil)
 		}
+		else if (indexPath.section == 1) {
+			self.handleMediaSelectionAtIndex(indexPath.row, ofCell: tableView.cellForRowAtIndexPath(indexPath)!)
+		}
 	}
-
+	
+	
+	/*
+		// MARK: - button handling
+	*/
+	
+	@IBAction func doneButtonTouched(AnyObject) {
+		self.delegate?.settingsViewControllerDidFinishedSuccessfully(self)
+	}
+	
+	func handleMediaSelectionAtIndex(index:Int, ofCell cell:UITableViewCell) {
+		switch mediaSources[index] {
+		case UIImagePickerControllerSourceType.Camera:
+			break
+		case UIImagePickerControllerSourceType.PhotoLibrary, UIImagePickerControllerSourceType.SavedPhotosAlbum:
+			let controller = UIImagePickerController()
+			controller.mediaTypes = UIImagePickerController.availableMediaTypesForSourceType(mediaSources[index])!
+			self.popoverController = WEPopoverController(contentViewController: controller)
+			self.popoverController.delegate = self
+			self.popoverController.popoverContentSize = CGSizeMake(300.0, 380.0)
+			self.popoverController.presentPopoverFromRect(self.myTableView.convertRect(cell.frame, fromView:cell), inView:self.view, permittedArrowDirections:UIPopoverArrowDirection.Any, animated:true)
+		default:
+			break
+		}
+	}
+	
 	/*
 		// MARK: - ColorSelectionProtocol
 	*/
@@ -105,5 +192,18 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 		cell.textLabel.textColor = controller.selectedColor
 		self.choosedBackgroundColor = controller.selectedColor
 		self.dismissViewControllerAnimated(true, completion: nil)
+	}
+	
+	
+	/*
+		// MARK: - WEPopoverDelegate
+	*/
+	
+	func popoverControllerDidDismissPopover(popoverController: WEPopoverController!) {
+		
+	}
+	
+	func popoverControllerShouldDismissPopover(popoverController: WEPopoverController!) -> Bool {
+		return true
 	}
 }

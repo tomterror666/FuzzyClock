@@ -35,6 +35,9 @@
 "settings" = "Settings";
 "selectBackgroundColor" = "Select background color";
 "selectBackgroundImage" = "Select background image";
+"fromAlbum" = "from your albums";
+"fromPhotos" = "from your photos";
+"fromCamera" = "from your camera";
 "redValue" = "Value of red color component";
 "greenValue" = "Value of green color component";
 "blueValue" = "Value of blue color component";

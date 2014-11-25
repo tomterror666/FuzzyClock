@@ -27,7 +27,7 @@ class ViewController: UIViewController, SettingsHandlingProtocol {
 	func adjustTimerForTimeChecking() {
 		
 		var timeGetterTimer: NSTimer
-		timeGetterTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("setCurrentTimeInFuzzy"), userInfo: nil, repeats: true)
+		timeGetterTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("configureSubviews"), userInfo: nil, repeats: true)
 	}
 	
 	/* 
