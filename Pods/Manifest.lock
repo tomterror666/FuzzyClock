@@ -1,0 +1,10 @@
+PODS:
+  - WEPopover (1.0.0)
+
+DEPENDENCIES:
+  - WEPopover (~> 1.0.0)
+
+SPEC CHECKSUMS:
+  WEPopover: 1d707d5d2fc8f27c2515d4a7c05214a0c239cc6f
+
+COCOAPODS: 0.34.4
