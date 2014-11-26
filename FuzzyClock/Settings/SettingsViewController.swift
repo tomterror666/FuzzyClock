@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 let cellIdentifier:String = "settingsCellIdentifier"
 
@@ -129,20 +130,26 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 	
 	func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		if (section == 1) {
-			let result:UIView = UIView(frame:CGRectMake(0.0, 0.0, self.myTableView.bounds.size.width, 25.0))
-			let headerLabel:UILabel = UILabel(frame:CGRectInset(result.bounds, 15.0, 0.0))
+			let result:UIView = UIView(frame:CGRectMake(0.0, 0.0, self.myTableView.bounds.size.width, 50.0))
+			let headerLabel:UILabel = UILabel(frame:CGRectMake(15.0, 0.0, result.bounds.size.width - 65.0, 50.0))
 			result.backgroundColor = UIColor(white: 0.9, alpha: 1.0)
 			headerLabel.text = NSLocalizedString("selectBackgroundImage", comment: "")
 			headerLabel.font = UIFont(name:"AvenirNeue-Medium", size: 14.0)
 			headerLabel.textColor = UIColor.darkGrayColor()
 			result.addSubview(headerLabel)
+			if (self.choosenBackgroundImage != nil) {
+				let imageView:UIImageView = UIImageView(frame: CGRectMake(headerLabel.frame.origin.x + headerLabel.frame.size.width + 5.0, 5.0, 40.0, 40.0))
+				imageView.contentMode = UIViewContentMode.ScaleAspectFill
+				imageView.image = self.choosenBackgroundImage
+				result.addSubview(imageView)
+			}
 			return result
 		}
 		return nil
 	}
 	
 	func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-		return section == 1 ? 25.0 : 0.0
+		return section == 1 ? 50.0 : 0.0
 	}
 		
 	func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -217,7 +224,9 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 	}
 	
 	func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-		
+		let image = info[UIImagePickerControllerOriginalImage] as UIImage
+		self.choosenBackgroundImage = image
+		self.myTableView.reloadData()
 	}
 	
 	func imagePickerControllerDidCancel(picker: UIImagePickerController) {

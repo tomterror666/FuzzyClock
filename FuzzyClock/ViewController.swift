@@ -56,7 +56,11 @@ class ViewController: UIViewController, SettingsHandlingProtocol {
 	*/
 
 	func settingsViewControllerDidFinishedSuccessfully(controller:SettingsViewController) {
-		self.view.backgroundColor = controller.choosedBackgroundColor
+		if (controller.choosenBackgroundImage != nil) {
+			self.view.backgroundColor = UIColor(patternImage: controller.choosenBackgroundImage!)
+		} else {
+			self.view.backgroundColor = controller.choosedBackgroundColor
+		}
 		self.dismissViewControllerAnimated(true, completion:nil)
 		dispatch_after(dispatch_time_t(1.0), dispatch_get_main_queue()) { () -> Void in
 			self.timeLabel.textColorComputed = false
