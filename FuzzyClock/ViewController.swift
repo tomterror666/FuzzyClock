@@ -12,6 +12,7 @@ class ViewController: UIViewController, SettingsHandlingProtocol {
 	
 	@IBOutlet weak var timeLabel: FuzzyLabel!
 	@IBOutlet weak var realTimeLabel: FuzzyLabel!
+	@IBOutlet weak var backgroundImageView: UIImageView!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -47,6 +48,7 @@ class ViewController: UIViewController, SettingsHandlingProtocol {
 	@IBAction func preferencesButtonTouched(AnyObject) {
 		let controller:SettingsViewController = SettingsViewController(nibName:"SettingsViewController", bundle:nil)
 		controller.choosedBackgroundColor = self.view.backgroundColor
+		controller.choosenBackgroundImage = self.backgroundImageView.image
 		controller.delegate = self
 		self.presentViewController(controller, animated:true, completion:nil)
 	}
@@ -56,11 +58,8 @@ class ViewController: UIViewController, SettingsHandlingProtocol {
 	*/
 
 	func settingsViewControllerDidFinishedSuccessfully(controller:SettingsViewController) {
-		if (controller.choosenBackgroundImage != nil) {
-			self.view.backgroundColor = UIColor(patternImage: controller.choosenBackgroundImage!)
-		} else {
-			self.view.backgroundColor = controller.choosedBackgroundColor
-		}
+		self.backgroundImageView.image = controller.choosenBackgroundImage
+		self.view.backgroundColor = controller.choosedBackgroundColor
 		self.dismissViewControllerAnimated(true, completion:nil)
 		dispatch_after(dispatch_time_t(1.0), dispatch_get_main_queue()) { () -> Void in
 			self.timeLabel.textColorComputed = false

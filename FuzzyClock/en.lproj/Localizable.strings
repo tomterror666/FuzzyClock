@@ -43,3 +43,4 @@
 "blueValue" = "Value of blue color component";
 "resultColor" = "Selected background color";
 "colorSelection" = "Color selection";
+"delete" = "Reset current selected image";

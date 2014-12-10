@@ -24,7 +24,7 @@
 		E8EB0D5C1A248D4400B0E76B /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8EB0D5A1A248D4400B0E76B /* SettingsViewController.xib */; };
 		E8EB0D5F1A24AA3B00B0E76B /* SelectColorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EB0D5D1A24AA3B00B0E76B /* SelectColorViewController.swift */; };
 		E8EB0D601A24AA3B00B0E76B /* SelectColorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E8EB0D5E1A24AA3B00B0E76B /* SelectColorViewController.xib */; };
-		E8EB0D621A24C61A00B0E76B /* NSString+FuzzyTimeConverting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EB0D611A24C61A00B0E76B /* NSString+FuzzyTimeConverting.swift */; };
+		E8EB0D621A24C61A00B0E76B /* NSObject+FuzzyTimeConverting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8EB0D611A24C61A00B0E76B /* NSObject+FuzzyTimeConverting.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +65,7 @@
 		E8EB0D5A1A248D4400B0E76B /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		E8EB0D5D1A24AA3B00B0E76B /* SelectColorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectColorViewController.swift; sourceTree = "<group>"; };
 		E8EB0D5E1A24AA3B00B0E76B /* SelectColorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectColorViewController.xib; sourceTree = "<group>"; };
-		E8EB0D611A24C61A00B0E76B /* NSString+FuzzyTimeConverting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSString+FuzzyTimeConverting.swift"; sourceTree = "<group>"; };
+		E8EB0D611A24C61A00B0E76B /* NSObject+FuzzyTimeConverting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+FuzzyTimeConverting.swift"; sourceTree = "<group>"; };
 		EA5D6F215A7C5F0036CF7BC2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,7 +135,7 @@
 				E89AA24C19FA8EAB003722B1 /* Main.storyboard */,
 				E89AA24F19FA8EAB003722B1 /* Images.xcassets */,
 				E89AA25119FA8EAB003722B1 /* LaunchScreen.xib */,
-				E8EB0D611A24C61A00B0E76B /* NSString+FuzzyTimeConverting.swift */,
+				E8EB0D611A24C61A00B0E76B /* NSObject+FuzzyTimeConverting.swift */,
 				E82B34FE1A24D9CA000A31BF /* EinTest.h */,
 				E82B34FF1A24D9CA000A31BF /* EinTest.m */,
 				E89AA24619FA8EAB003722B1 /* Supporting Files */,
@@ -328,7 +328,7 @@
 				E845C25A1A03B3D90029576E /* FuzzyLabel.swift in Sources */,
 				E82B35051A24DCD7000A31BF /* ImageSelectionViewController.swift in Sources */,
 				E89AA24B19FA8EAB003722B1 /* ViewController.swift in Sources */,
-				E8EB0D621A24C61A00B0E76B /* NSString+FuzzyTimeConverting.swift in Sources */,
+				E8EB0D621A24C61A00B0E76B /* NSObject+FuzzyTimeConverting.swift in Sources */,
 				E82B35001A24D9CA000A31BF /* EinTest.m in Sources */,
 				E89AA24919FA8EAB003722B1 /* AppDelegate.swift in Sources */,
 				E8EB0D5B1A248D4400B0E76B /* SettingsViewController.swift in Sources */,

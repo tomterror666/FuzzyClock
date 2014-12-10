@@ -32,7 +32,8 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
         super.viewDidLoad()
 
 		self.configureNavigationBar()
-		self.configureTableView()		
+		self.configureTableView()
+		self.configureMediaSources()
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,6 +75,18 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 		}
 	}
 	
+	func configureMediaSources() {
+		if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+			self.mediaSources.append(UIImagePickerControllerSourceType.Camera)
+		}
+		if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary)) {
+			self.mediaSources.append(UIImagePickerControllerSourceType.PhotoLibrary)
+		}
+		if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum)) {
+			self.mediaSources.append(UIImagePickerControllerSourceType.SavedPhotosAlbum)
+		}
+	}
+	
     /*
 		// MARK: - UITableViewDataSource and UITableViewDelegate
     */
@@ -83,20 +96,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 		case 0:
 			return 1
 		case 1:
-			var lineCounter:Int = 0
-			if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
-				lineCounter++
-				self.mediaSources.append(UIImagePickerControllerSourceType.Camera)
-			}
-			if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary)) {
-				lineCounter++
-				self.mediaSources.append(UIImagePickerControllerSourceType.PhotoLibrary)
-			}
-			if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum)) {
-				lineCounter++
-				self.mediaSources.append(UIImagePickerControllerSourceType.SavedPhotosAlbum)
-			}
-			return lineCounter
+			return self.mediaSources.count + 1
 		default:
 			return 0
 		}
@@ -110,19 +110,16 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 		let __cell:AnyObject = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)!
 		var cell:UITableViewCell = __cell as UITableViewCell
 		
-		switch indexPath.row {
-			case 0:
-				if indexPath.section == 0 {
-					cell.textLabel.text = NSLocalizedString("selectBackgroundColor", comment: "")
-					cell.textLabel.textColor = self.choosedBackgroundColor
-					cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
-				} else {
-					self.configureCell(cell, forSourceType:mediaSources[0])
-				}
-			case 1, 2:
-				self.configureCell(cell, forSourceType:mediaSources[indexPath.row])
-			default:
-				break
+		if (indexPath.section == 0) {
+			cell.textLabel.text = NSLocalizedString("selectBackgroundColor", comment:"")
+			cell.textLabel.textColor = self.choosedBackgroundColor != nil ? self.choosedBackgroundColor : UIColor.blackColor()
+			cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+		}
+		else if (indexPath.row < self.mediaSources.count) {
+			self.configureCell(cell, forSourceType:self.mediaSources[indexPath.row])
+		}
+		else {
+			cell.textLabel.text = NSLocalizedString("delete", comment:"")
 		}
 		
 		return cell
@@ -140,6 +137,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 			if (self.choosenBackgroundImage != nil) {
 				let imageView:UIImageView = UIImageView(frame: CGRectMake(headerLabel.frame.origin.x + headerLabel.frame.size.width + 5.0, 5.0, 40.0, 40.0))
 				imageView.contentMode = UIViewContentMode.ScaleAspectFill
+				imageView.clipsToBounds = true
 				imageView.image = self.choosenBackgroundImage
 				result.addSubview(imageView)
 			}
@@ -161,7 +159,11 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 			self.presentViewController(controller, animated: true, completion: nil)
 		}
 		else if (indexPath.section == 1) {
-			self.handleMediaSelectionAtIndex(indexPath.row, ofCell: tableView.cellForRowAtIndexPath(indexPath)!)
+			if (indexPath.row < self.mediaSources.count) {
+				self.handleMediaSelectionAtIndex(indexPath.row, ofCell: tableView.cellForRowAtIndexPath(indexPath)!)
+			} else {
+				self.deleteCurrentSelectedImage()
+			}
 		}
 	}
 	
@@ -185,10 +187,15 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 			self.popoverController = WEPopoverController(contentViewController: controller)
 			self.popoverController.delegate = self
 			self.popoverController.popoverContentSize = CGSizeMake(300.0, 380.0)
-			self.popoverController.presentPopoverFromRect(self.myTableView.convertRect(cell.frame, fromView:cell), inView:self.view, permittedArrowDirections:UIPopoverArrowDirection.Any, animated:true)
+			self.popoverController.presentPopoverFromRect(self.myTableView.rectForSection(1), inView:self.myTableView, permittedArrowDirections:UIPopoverArrowDirection.Up, animated:true)
 		default:
 			break
 		}
+	}
+	
+	func deleteCurrentSelectedImage() {
+		self.choosenBackgroundImage = nil;
+		self.myTableView.reloadData()
 	}
 	
 	/*
@@ -227,6 +234,7 @@ class SettingsViewController: UIViewController, UITableViewDataSource, UITableVi
 		let image = info[UIImagePickerControllerOriginalImage] as UIImage
 		self.choosenBackgroundImage = image
 		self.myTableView.reloadData()
+		self.popoverController.dismissPopoverAnimated(true)
 	}
 	
 	func imagePickerControllerDidCancel(picker: UIImagePickerController) {

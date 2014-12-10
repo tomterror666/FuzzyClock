@@ -35,11 +35,12 @@
 "settings" = "Einstellungen";
 "selectBackgroundColor" = "Hintergrundfarbe wählen";
 "selectBackgroundImage" = "Hintergrundbild wählen";
-"fromAlbum" = "aus Deinen Alben";
-"fromPhotos" = "aus Deinen Fotos";
+"fromAlbum" = "aus deinen Alben";
+"fromPhotos" = "aus deinen Fotos";
 "fromCamera" = "mit der Kamera";
 "redValue" = "Wert des roten Farbkanals";
 "greenValue" = "Wert des grünen Farbkanals";
 "blueValue" = "Wert des blauen Farbkanals";
 "resultColor" = "Ausgewählte Hintergrundfarbe";
 "colorSelection" = "Farbauswahl";
+"delete" = "Ausgewähltes Bild zurücksetzen";
